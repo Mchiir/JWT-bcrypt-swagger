@@ -2,7 +2,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import { Users } from "../models/models.js";
 import dotenv from 'dotenv';
-dotenv.config({ path:'./.env' });
+dotenv.config({ path: './.env' });
 const TOKEN_EXP = process.env.JWT_EXPIRATION;
 // console.log(TOKEN_EXP);
 
@@ -35,11 +35,12 @@ router.post("/login", async (req, res) => {
     }
     // Generate JWT token
     const token = jwt.sign(
-       { id: user._id, username: user.username },
-       process.env.JWT_SECRET,
-       { expiresIn: TOKEN_EXP || '1h'}
+      { id: user._id, username: user.username },
+      process.env.JWT_SECRET, {
+      expiresIn: JWT_EXPIRATION || "1h"
+    }
     );
-    res.setHeader('x-access-token', token);
+    // res.setHeader('x-access-token', token);
     res.json({ token });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
